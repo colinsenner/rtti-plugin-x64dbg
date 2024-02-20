@@ -4,6 +4,10 @@ A plugin to quickly retrieve RTTI information (if present) at a memory address.
 
 There's a wealth of information present in RTTI that's of use when reverse engineering.  This plugin aims to make this information easily available to the user.
 
+## Demo
+
+https://github.com/colinsenner/rtti-plugin-x64dbg/assets/13701799/1443cd56-6bc7-4a95-aa60-6eda23b95cac
+
 ## Installation
 1. Compile the solution in Release mode for x86 and x64.
 2. Copy 'Rtti.dp32' from the /bin to your \x64dbg\release\x32\plugins directory.
