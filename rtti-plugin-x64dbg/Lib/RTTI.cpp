@@ -13,13 +13,10 @@ using namespace std;
 string Demangle(char* sz_name)
 {
 	char tmp[MAX_CLASS_NAME] = { 0 };
-	if (UnDecorateSymbolName(sz_name, tmp, MAX_CLASS_NAME, UNDNAME_NAME_ONLY) == 0)
+	if (UnDecorateSymbolName(sz_name, tmp, MAX_CLASS_NAME, UNDNAME_NO_ARGUMENTS) == 0)
 		return false;
 
-	// Remove 'AV' from the name
-	char* n = tmp + 2;
-
-	return string(n);
+	return string(tmp);
 }
 
 duint GetBaseAddress(duint addr)
