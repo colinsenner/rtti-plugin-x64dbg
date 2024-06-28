@@ -81,7 +81,7 @@ static bool cbRttiCommand(int argc, char* argv[])
 			AutoLabel(rtti);
 			string rttiInfo = rtti.ToString();
 
-			dprintf(rttiInfo.c_str());
+			dprintf("%s\n", rttiInfo.c_str());
 		}
 		else
 			dprintf("No RTTI information found for address %p\n", addr);
