@@ -4,16 +4,17 @@
 #include "MemHelpers.h"
 #include "RTINFO.h"
 #include <string>
-#include <DbgHelp.h>
 
-#pragma comment(lib, "DbgHelp.lib")
+#define UNDNAME_TYPE_ONLY 0x2000
+
+extern "C" char *__cdecl __unDName(char *outputString, const char *name, int maxStringLength, void *pAlloc, void *pFree, unsigned short disableFlags);
 
 using namespace std;
 
 string Demangle(char* sz_name)
 {
 	char tmp[MAX_CLASS_NAME] = { 0 };
-	if (UnDecorateSymbolName(sz_name, tmp, MAX_CLASS_NAME, UNDNAME_NO_ARGUMENTS) == 0)
+	if (__unDName(tmp, sz_name, MAX_CLASS_NAME, malloc, free, UNDNAME_TYPE_ONLY) == 0)
 		return false;
 
 	return string(tmp);
