@@ -6,7 +6,6 @@
 
 using namespace std;
 
-#define MAX_CLASS_NAME 256
 #define MAX_BASE_CLASSES 12
 
 class RTTI {

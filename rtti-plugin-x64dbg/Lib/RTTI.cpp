@@ -4,6 +4,7 @@
 #include "MemHelpers.h"
 #include "RTINFO.h"
 #include <string>
+#include <memory>
 
 #define UNDNAME_TYPE_ONLY 0x2000
 
@@ -11,13 +12,20 @@ extern "C" char *__cdecl __unDName(char *outputString, const char *name, int max
 
 using namespace std;
 
+namespace {
+	struct FreeDeleter {
+		void operator()(char *ptr) const {
+			free(ptr);
+		}
+	};
+}
+
 string Demangle(char* sz_name)
 {
-	char tmp[MAX_CLASS_NAME] = { 0 };
-	if (__unDName(tmp, sz_name, MAX_CLASS_NAME, malloc, free, UNDNAME_TYPE_ONLY) == 0)
+	unique_ptr<char[], FreeDeleter> tmp(__unDName(nullptr, sz_name, 0, malloc, free, UNDNAME_TYPE_ONLY));
+	if (!tmp)
 		return false;
-
-	return string(tmp);
+	return string(tmp.get());
 }
 
 duint GetBaseAddress(duint addr)
