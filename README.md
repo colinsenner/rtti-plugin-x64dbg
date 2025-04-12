@@ -29,6 +29,11 @@ There is an included project called `ClassRTTIPluginTest`.  You can compile thes
 
 The tests have breakpoints after the creation of the class, so open the tests in x64dbg, and run until you hit the breakpoint.
 
+1. Open the example binary `ClassRTTIPluginTest64d.exe` in x64dbg.
+2. Run the program until the breakpoint is hit. The instruction will be `lea rcx, ...; call classrttiplugin...`, the call is the constructor for the class.
+3. Step over the call and follow in dump `rax` to get to the class instance. 
+4. Right-click the address in the the memory dump and select `Rtti-plugin-x64 -> Dump Rtti`.  If the address contains RTTI information, a dialog will appear at the bottom of the screen and also in the `Log` window.
+
 ## Reporting Crashes
 
 If you find a crash please submit an issue on github or open a pull request.
@@ -40,4 +45,3 @@ There are references for finding Rtti information included in the `/docs` direct
 * [Visual C++ RTTI Inspection](https://blog.quarkslab.com/visual-c-rtti-inspection.html)
 * [Reversing Microsoft Visual C++ Part II: Classes, Methods and RTTI - by Igorsk](http://www.openrce.org/articles/full_view/23)
 * [Recovery of Object Oriented Features from C++ Binaries](https://www.ece.umd.edu/~barua/yoo-APSEC-2014.pdf)
-.
