@@ -346,3 +346,29 @@ bool RTTI::IsValid()
 {
 	return m_isValid;
 }
+
+string RTTI::GetNameOnly(duint addr)
+{
+	duint vftable = 0;
+	if (!DbgMemRead(addr, &vftable, sizeof(duint))) { return ""; }
+	if (vftable == 0) { return ""; }
+
+	vftable_t vtbl = {};
+	if (!DbgMemRead(vftable - sizeof(duint), &vtbl, sizeof(vftable_t))) { return ""; }
+
+	RTTICompleteObjectLocator col = {};
+	if (!DbgMemRead((duint)vtbl.pCompleteObjectLocator, &col, sizeof(RTTICompleteObjectLocator))) { return ""; }
+
+#ifdef _WIN64
+	duint moduleBase = GetBaseAddress((duint)vtbl.pCompleteObjectLocator);
+	if (moduleBase == 0) { return ""; }
+	duint pTypeDesc = moduleBase + col.pTypeDescriptor;
+#else
+	duint pTypeDesc = (duint)col.pTypeDescriptor;
+#endif
+
+	TypeDescriptor typeDesc = {};
+	if (!DbgMemRead(pTypeDesc, &typeDesc, sizeof(TypeDescriptor))) { return ""; }
+
+	return Demangle(typeDesc.sz_decorated_name);
+}

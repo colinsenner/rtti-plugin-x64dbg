@@ -17,13 +17,16 @@ void SetConfigPath()
 void LoadConfig()
 {
 	IniManager iniReader(config_path);
-	settings.auto_label_vftable = iniReader.ReadBoolean("settings", "auto_label_vftable", true);
+	settings.auto_label_vftable   = iniReader.ReadBoolean("settings", "auto_label_vftable",   true);
+	settings.show_rtti_comments   = iniReader.ReadBoolean("settings", "show_rtti_comments",   false);
 }
 
-void SaveConfig() 
+void SaveConfig()
 {
 	IniManager iniWriter(config_path);
-	iniWriter.WriteBoolean("settings", "auto_label_vftable", settings.auto_label_vftable);
+	iniWriter.WriteBoolean("settings", "auto_label_vftable",   settings.auto_label_vftable);
+	iniWriter.WriteBoolean("settings", "show_rtti_comments",   settings.show_rtti_comments);
 
-	_plugin_menuentrysetchecked(pluginHandle, MENU_AUTO_LABEL_VFTABLE, settings.auto_label_vftable);
+	_plugin_menuentrysetchecked(pluginHandle, MENU_AUTO_LABEL_VFTABLE,    settings.auto_label_vftable);
+	_plugin_menuentrysetchecked(pluginHandle, MENU_SHOW_RTTI_COMMENTS,    settings.show_rtti_comments);
 }
