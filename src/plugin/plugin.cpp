@@ -156,7 +156,7 @@ PLUG_EXPORT void CBMENUENTRY(CBTYPE cbType, PLUG_CB_MENUENTRY *info)
 
     case MENU_ABOUT:
         MessageBoxA(GuiGetWindowHandle(),
-                    "RTTI plugin version v" RTTI_PLUGIN_VERSION "\n\nhttps://gitlab.com/colinsenner/Rtti-plugin-x64",
+                    "RTTI plugin version v" RTTI_PLUGIN_VERSION "\n\nhttps://github.com/colinsenner/rtti-plugin-x64dbg",
                     "About", 0);
         break;
 
