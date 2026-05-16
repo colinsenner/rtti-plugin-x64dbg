@@ -21,14 +21,14 @@ struct FreeDeleter
 };
 } // namespace
 
-string Demangle(char *sz_name)
+std::string Demangle(char *sz_name)
 {
     unique_ptr<char[], FreeDeleter> tmp(__unDName(nullptr, sz_name, 0, malloc, free, UNDNAME_TYPE_ONLY));
     if (!tmp)
     {
         return "";
     }
-    return string(tmp.get());
+    return std::string(tmp.get());
 }
 
 duint GetBaseAddress(duint addr) { return DbgFunctions()->ModBaseFromAddr(addr); }
@@ -182,7 +182,7 @@ bool RTTI::GetBaseClasses()
 
         auto baseClassType = m_baseClassTypeDescriptors[i];
 
-        string className = Demangle(baseClassType.sz_decorated_name);
+        std::string className = Demangle(baseClassType.sz_decorated_name);
 
         // Assign the vbtable entry
         m_vbtable[i] = 0;
@@ -298,9 +298,9 @@ RTTIBaseClassDescriptor RTTI::GetBaseClassDescriptor(size_t idx)
     return m_baseClassDescriptors[idx];
 }
 
-string RTTI::ToString()
+std::string RTTI::ToString()
 {
-    string result = "";
+    std::string result = "";
 
     if (!m_isValid)
     {
@@ -323,7 +323,7 @@ string RTTI::ToString()
             auto baseClassName = Demangle(m_baseClassTypeDescriptors[i].sz_decorated_name);
             auto baseClassOffset = m_baseClassOffsets[i];
 
-            result.append(baseClassName.c_str() + string(" "));
+            result.append(baseClassName.c_str() + std::string(" "));
 
             // Print offsets
             result.append("(+");
@@ -377,7 +377,7 @@ duint RTTI::GetBaseClassOffsetFromThis(size_t idx)
 
 bool RTTI::IsValid() { return m_isValid; }
 
-string RTTI::GetNameOnly(duint addr)
+std::string RTTI::GetNameOnly(duint addr)
 {
     duint vftable = 0;
     if (!DbgMemRead(addr, &vftable, sizeof(duint)))

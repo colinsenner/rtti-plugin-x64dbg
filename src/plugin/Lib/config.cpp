@@ -2,8 +2,7 @@
 #include "..\pluginmain.h"
 #include "ini.h"
 
-
-string config_path;
+std::string config_path;
 settings_t settings;
 
 void SetConfigPath()
@@ -12,7 +11,7 @@ void SetConfigPath()
     GetCurrentDirectory(MAX_PATH, szCurrentDirectory);
     strcat_s(szCurrentDirectory, "\\");
 
-    config_path = szCurrentDirectory + string("Rtti.ini");
+    config_path = szCurrentDirectory + std::string("Rtti.ini");
 }
 
 void LoadConfig()

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Windows.h>
 #include "pluginsdk/_plugins.h"
 #include "pluginsdk/bridgemain.h"
 

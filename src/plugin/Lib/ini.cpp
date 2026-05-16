@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-IniManager::IniManager(string szFileName) { m_szFileName = szFileName; }
+IniManager::IniManager(std::string szFileName) { m_szFileName = szFileName; }
 
 int IniManager::ReadInteger(char *szSection, char *szKey, int iDefaultValue)
 {

@@ -4,8 +4,6 @@
 #include "RTINFO.h"
 #include <string>
 
-using namespace std;
-
 #define MAX_BASE_CLASSES 12
 
 class RTTI
@@ -13,8 +11,7 @@ class RTTI
   public:
     RTTI(duint addr);
 
-    // This class' name
-    string name;
+    std::string name;
 
     // Populates the private fields m_...
     bool GetVftable();
@@ -24,12 +21,12 @@ class RTTI
     bool GetClassHierarchyDescriptor();
     bool GetBaseClasses();
 
-    string ToString();
+    std::string ToString();
     bool IsValid();
 
     // Lightweight name-only lookup: no logging, no base class parsing.
     // Returns empty string if addr does not point to a C++ object with RTTI.
-    static string GetNameOnly(duint addr);
+    static std::string GetNameOnly(duint addr);
 
   private:
     duint m_this = 0;

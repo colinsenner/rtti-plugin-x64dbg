@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-using namespace std;
 
 struct settings_t
 {
@@ -17,5 +16,5 @@ void SaveConfig();
 // Set the config path to the current directory
 void SetConfigPath();
 
-extern string config_path;
+extern std::string config_path;
 extern settings_t settings;
