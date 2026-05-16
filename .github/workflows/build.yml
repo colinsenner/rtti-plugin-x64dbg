@@ -13,12 +13,14 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
 
       - name: Build
         run: |
@@ -27,7 +29,7 @@ jobs:
           ./release.bat
 
       - name: Get current time
-        uses: srfrnk/current-time@5a4163ad035ccd9a407ec9e519c3b6ba1b633d1e # v1.1.0
+        uses: srfrnk/current-time@master
         id: current-time
         with:
           format: YYYY-MM-DD_HH-MM
@@ -46,7 +48,7 @@ jobs:
           dest: ${{ github.event.repository.name }}_${{ steps.current-time.outputs.formattedTime }}.zip
 
       - name: Release
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
+        uses: softprops/action-gh-release@v3
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
         with:
           prerelease: ${{ !startsWith(github.ref, 'refs/tags/v') || contains(github.ref, '-pre') }}
