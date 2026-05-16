@@ -1,9 +1,10 @@
 #pragma once
 #include <string>
-using namespace std;
 
-struct settings_t {
-	bool auto_label_vftable;
+struct settings_t
+{
+    bool auto_label_vftable;
+    bool show_rtti_comments;
 };
 
 // Load the configuration file with the settings of the plugin
@@ -15,5 +16,5 @@ void SaveConfig();
 // Set the config path to the current directory
 void SetConfigPath();
 
-extern string config_path;
+extern std::string config_path;
 extern settings_t settings;

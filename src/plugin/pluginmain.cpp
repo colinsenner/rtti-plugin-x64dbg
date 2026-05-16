@@ -8,7 +8,7 @@ int hMenuDisasm;
 int hMenuDump;
 int hMenuStack;
 
-PLUG_EXPORT bool pluginit(PLUG_INITSTRUCT* initStruct)
+PLUG_EXPORT bool pluginit(PLUG_INITSTRUCT *initStruct)
 {
     initStruct->pluginVersion = PLUGIN_VERSION;
     initStruct->sdkVersion = PLUG_SDKVERSION;
@@ -23,7 +23,7 @@ PLUG_EXPORT bool plugstop()
     return true;
 }
 
-PLUG_EXPORT void plugsetup(PLUG_SETUPSTRUCT* setupStruct)
+PLUG_EXPORT void plugsetup(PLUG_SETUPSTRUCT *setupStruct)
 {
     hwndDlg = setupStruct->hwndDlg;
     hMenu = setupStruct->hMenu;
