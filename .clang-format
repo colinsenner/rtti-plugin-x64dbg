@@ -83,14 +83,14 @@ BinPackArguments: true
 BitFieldColonSpacing: Both
 BraceWrapping:
   AfterCaseLabel: false
-  AfterClass: false
+  AfterClass: true
   AfterControlStatement: Never
-  AfterEnum: false
+  AfterEnum: true
   AfterExternBlock: false
-  AfterFunction: false
+  AfterFunction: true
   AfterNamespace: false
   AfterObjCDeclaration: false
-  AfterStruct: false
+  AfterStruct: true
   AfterUnion: false
   BeforeCatch: false
   BeforeElse: false
@@ -107,7 +107,7 @@ BreakAfterReturnType: None
 BreakArrays: true
 BreakBeforeBinaryOperators: None
 BreakBeforeConceptDeclarations: Always
-BreakBeforeBraces: Attach
+BreakBeforeBraces: Allman
 BreakBeforeInlineASMColon: OnlyMultiline
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializers: BeforeColon
@@ -158,7 +158,7 @@ IndentPPDirectives: None
 IndentRequiresClause: true
 IndentWidth: 4
 IndentWrappedFunctionNames: false
-InsertBraces: false
+InsertBraces: true
 InsertNewlineAtEOF: false
 InsertTrailingCommas: None
 IntegerLiteralSeparator:

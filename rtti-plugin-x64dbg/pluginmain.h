@@ -1,7 +1,8 @@
 #pragma once
 
-#include "pluginsdk/bridgemain.h"
 #include "pluginsdk/_plugins.h"
+#include "pluginsdk/bridgemain.h"
+
 
 #include "pluginsdk/_scriptapi_argument.h"
 #include "pluginsdk/_scriptapi_assembler.h"
@@ -20,13 +21,14 @@
 #include "pluginsdk/_scriptapi_stack.h"
 #include "pluginsdk/_scriptapi_symbol.h"
 
-#include "pluginsdk/capstone/capstone.h"
 #include "pluginsdk/DeviceNameResolver/DeviceNameResolver.h"
-#include "pluginsdk/jansson/jansson.h"
-#include "pluginsdk/lz4/lz4file.h"
 #include "pluginsdk/TitanEngine/TitanEngine.h"
 #include "pluginsdk/XEDParse/XEDParse.h"
+#include "pluginsdk/capstone/capstone.h"
+#include "pluginsdk/jansson/jansson.h"
+#include "pluginsdk/lz4/lz4file.h"
 #include "pluginsdk/yara/yara.h"
+
 
 #ifdef _WIN64
 #pragma comment(lib, "pluginsdk/x64dbg.lib")
@@ -52,12 +54,12 @@
 
 #define Cmd(x) DbgCmdExecDirect(x)
 #define Eval(x) DbgValFromString(x)
-//#define dprintf(x, ...) _plugin_logprintf("[" PLUGIN_NAME "] " x, __VA_ARGS__)
+// #define dprintf(x, ...) _plugin_logprintf("[" PLUGIN_NAME "] " x, __VA_ARGS__)
 #define dprintf(x, ...) _plugin_logprintf(x, __VA_ARGS__)
 #define dputs(x) _plugin_logprintf("[" PLUGIN_NAME "] %s\n", x)
 #define PLUG_EXPORT extern "C" __declspec(dllexport)
 
-//superglobal variables
+// superglobal variables
 extern int pluginHandle;
 extern HWND hwndDlg;
 extern int hMenu;
@@ -67,10 +69,10 @@ extern int hMenuStack;
 
 enum
 {
-	MENU_AUTO_LABEL_VFTABLE,
-	//MENU_DISASM,
-	MENU_DUMP_RTTI,
-	//MENU_STACK
-	MENU_ABOUT,
-	MENU_SHOW_RTTI_COMMENTS
+    MENU_AUTO_LABEL_VFTABLE,
+    // MENU_DISASM,
+    MENU_DUMP_RTTI,
+    // MENU_STACK
+    MENU_ABOUT,
+    MENU_SHOW_RTTI_COMMENTS
 };

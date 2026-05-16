@@ -2,9 +2,10 @@
 #include <string>
 using namespace std;
 
-struct settings_t {
-	bool auto_label_vftable;
-	bool show_rtti_comments;
+struct settings_t
+{
+    bool auto_label_vftable;
+    bool show_rtti_comments;
 };
 
 // Load the configuration file with the settings of the plugin

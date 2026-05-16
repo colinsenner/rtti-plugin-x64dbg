@@ -1,5 +1,3 @@
 #include "RTINFO.h"
 
-void RTTICompleteObjectLocator64::Print()
-{
-}
+void RTTICompleteObjectLocator64::Print() {}

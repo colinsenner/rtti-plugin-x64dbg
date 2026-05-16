@@ -2,71 +2,69 @@
 /// https://github.com/ThunderCls/xAnalyzer
 
 #include "ini.h"
+#include <Windows.h>
 #include <iostream>
-#include <Windows.h> 
 
-IniManager::IniManager(string szFileName)
+
+IniManager::IniManager(string szFileName) { m_szFileName = szFileName; }
+
+int IniManager::ReadInteger(char *szSection, char *szKey, int iDefaultValue)
 {
-	m_szFileName = szFileName;
+    int iResult = GetPrivateProfileInt(szSection, szKey, iDefaultValue, m_szFileName.c_str());
+    return iResult;
 }
 
-int IniManager::ReadInteger(char* szSection, char* szKey, int iDefaultValue)
+double IniManager::ReadDouble(char *szSection, char *szKey, float fltDefaultValue)
 {
-	int iResult = GetPrivateProfileInt(szSection, szKey, iDefaultValue, m_szFileName.c_str());
-	return iResult;
+    char szResult[MAX_PATH] = "";
+    char szDefault[MAX_PATH] = "";
+
+    sprintf_s(szDefault, "%f", fltDefaultValue);
+    GetPrivateProfileString(szSection, szKey, szDefault, szResult, MAX_PATH, m_szFileName.c_str());
+    return atof(szResult);
 }
 
-double IniManager::ReadDouble(char* szSection, char* szKey, float fltDefaultValue)
+bool IniManager::ReadBoolean(char *szSection, char *szKey, bool bolDefaultValue)
 {
-	char szResult[MAX_PATH] = "";
-	char szDefault[MAX_PATH] = "";
+    char szResult[10];
+    char szDefault[10];
 
-	sprintf_s(szDefault, "%f", fltDefaultValue);
-	GetPrivateProfileString(szSection, szKey, szDefault, szResult, MAX_PATH, m_szFileName.c_str());
-	return atof(szResult);
+    sprintf_s(szDefault, "%s", bolDefaultValue ? "true" : "false");
+    GetPrivateProfileString(szSection, szKey, szDefault, szResult, 10, m_szFileName.c_str());
 
+    return (strcmp(szResult, "true") == 0);
 }
 
-bool IniManager::ReadBoolean(char* szSection, char* szKey, bool bolDefaultValue)
+std::string IniManager::ReadString(char *szSection, char *szKey, const char *szDefaultValue)
 {
-	char szResult[10];
-	char szDefault[10];
-
-	sprintf_s(szDefault, "%s", bolDefaultValue ? "true" : "false");
-	GetPrivateProfileString(szSection, szKey, szDefault, szResult, 10, m_szFileName.c_str());
-
-	return (strcmp(szResult, "true") == 0);
+    std::string szResult;
+    GetPrivateProfileString((LPCSTR)szSection, (LPCSTR)szKey, (LPCSTR)szDefaultValue, (LPSTR)szResult.c_str(), 255,
+                            (LPCSTR)m_szFileName.c_str());
+    return szResult;
 }
 
-std::string IniManager::ReadString(char* szSection, char* szKey, const char* szDefaultValue)
+void IniManager::WriteInteger(char *szSection, char *szKey, int iValue)
 {
-	std::string szResult;
-	GetPrivateProfileString((LPCSTR)szSection, (LPCSTR)szKey, (LPCSTR)szDefaultValue, (LPSTR)szResult.c_str(), 255, (LPCSTR)m_szFileName.c_str());
-	return szResult;
+    char szValue[MAX_PATH] = "";
+    sprintf_s(szValue, "%d", iValue);
+    WritePrivateProfileString(szSection, szKey, szValue, m_szFileName.c_str());
 }
 
-void IniManager::WriteInteger(char* szSection, char* szKey, int iValue)
+void IniManager::WriteDouble(char *szSection, char *szKey, double fltValue)
 {
-	char szValue[MAX_PATH] = "";
-	sprintf_s(szValue, "%d", iValue);
-	WritePrivateProfileString(szSection, szKey, szValue, m_szFileName.c_str());
+    char szValue[MAX_PATH] = "";
+    sprintf_s(szValue, "%lf", fltValue);
+    WritePrivateProfileString(szSection, szKey, szValue, m_szFileName.c_str());
 }
 
-void IniManager::WriteDouble(char* szSection, char* szKey, double fltValue)
+void IniManager::WriteBoolean(char *szSection, char *szKey, bool bolValue)
 {
-	char szValue[MAX_PATH] = "";
-	sprintf_s(szValue, "%lf", fltValue);
-	WritePrivateProfileString(szSection, szKey, szValue, m_szFileName.c_str());
+    char szValue[MAX_PATH] = "";
+    sprintf_s(szValue, "%s", bolValue ? "true" : "false");
+    WritePrivateProfileString(szSection, szKey, szValue, m_szFileName.c_str());
 }
 
-void IniManager::WriteBoolean(char* szSection, char* szKey, bool bolValue)
+void IniManager::WriteString(char *szSection, char *szKey, char *szValue)
 {
-	char szValue[MAX_PATH] = "";
-	sprintf_s(szValue, "%s", bolValue ? "true" : "false");
-	WritePrivateProfileString(szSection, szKey, szValue, m_szFileName.c_str());
-}
-
-void IniManager::WriteString(char* szSection, char* szKey, char* szValue)
-{
-	WritePrivateProfileString(szSection, szKey, szValue, m_szFileName.c_str());
+    WritePrivateProfileString(szSection, szKey, szValue, m_szFileName.c_str());
 }
