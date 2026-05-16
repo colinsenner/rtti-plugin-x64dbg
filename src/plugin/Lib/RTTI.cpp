@@ -102,6 +102,9 @@ bool RTTI::GetTypeDescriptor()
         return false;
     }
 
+    // Ensure null-termination to prevent out-of-bounds reads on untrusted data
+    m_typeDescriptor.sz_decorated_name[sizeof(m_typeDescriptor.sz_decorated_name) - 1] = '\0';
+
     return true;
 }
 
@@ -179,6 +182,9 @@ bool RTTI::GetBaseClasses()
         {
             return false;
         }
+
+        // Ensure null-termination to prevent out-of-bounds reads on untrusted data
+        m_baseClassTypeDescriptors[i].sz_decorated_name[sizeof(m_baseClassTypeDescriptors[i].sz_decorated_name) - 1] = '\0';
 
         auto baseClassType = m_baseClassTypeDescriptors[i];
 
@@ -417,6 +423,9 @@ std::string RTTI::GetNameOnly(duint addr)
     {
         return "";
     }
+
+    // Ensure null-termination to prevent out-of-bounds reads on untrusted data
+    typeDesc.sz_decorated_name[sizeof(typeDesc.sz_decorated_name) - 1] = '\0';
 
     return Demangle(typeDesc.sz_decorated_name);
 }
