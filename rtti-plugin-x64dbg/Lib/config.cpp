@@ -17,8 +17,8 @@ void SetConfigPath()
 void LoadConfig()
 {
 	IniManager iniReader(config_path);
-	settings.auto_label_vftable   = iniReader.ReadBoolean("settings", "auto_label_vftable",   true);
-	settings.show_rtti_comments   = iniReader.ReadBoolean("settings", "show_rtti_comments",   false);
+	settings.auto_label_vftable   = iniReader.ReadBoolean("settings", "auto_label_vftable", true);
+	settings.show_rtti_comments   = iniReader.ReadBoolean("settings", "show_rtti_comments", true);
 }
 
 void SaveConfig()
