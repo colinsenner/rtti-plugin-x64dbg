@@ -42,12 +42,8 @@ jobs:
           path: bin/release/
 
       - name: Compress artifacts
-        uses: vimtor/action-zip@v1
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
-        with:
-          files: bin/release/
-          recursive: false
-          dest: ${{ github.event.repository.name }}_${{ steps.current-time.outputs.formattedTime }}.zip
+        run: Compress-Archive -Path bin/release/* -DestinationPath "${{ github.event.repository.name }}_${{ steps.current-time.outputs.formattedTime }}.zip"
 
       - name: Release
         uses: softprops/action-gh-release@v3
