@@ -1,7 +1,6 @@
 @echo off
-rmdir /S /Q bin
-mkdir bin\x32
-mkdir bin\x64
+mkdir bin\release\x32\plugins 2>nul
+mkdir bin\release\x64\plugins 2>nul
 
-xcopy /s /q Release\* bin\x32\
-xcopy /s /q x64\Release\* bin\x64\
+xcopy /s /q bin\x32\Release\* bin\release\x32\plugins\
+xcopy /s /q bin\x64\Release\* bin\release\x64\plugins\
