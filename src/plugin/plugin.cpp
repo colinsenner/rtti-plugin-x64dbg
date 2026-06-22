@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 #define RTTI_COMMAND "rtti"
-#define RTTI_PLUGIN_VERSION "1.0.7"
+#define RTTI_PLUGIN_VERSION "1.0.8"
 
 // addr → demangled class name; empty string means "checked, not a C++ object"
 // static std::unordered_map<duint, std::string> s_rttiCache;

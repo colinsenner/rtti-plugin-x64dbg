@@ -4,7 +4,7 @@
 #include "RTINFO.h"
 #include <string>
 
-#define MAX_BASE_CLASSES 12
+#define MAX_BASE_CLASSES 64
 
 class RTTI
 {
