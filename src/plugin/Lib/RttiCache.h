@@ -16,7 +16,7 @@
 class RttiCache
 {
   public:
-    explicit RttiCache(size_t capacity = 64);
+    explicit RttiCache(size_t capacity = 2048);
 
     // Returns true if addr is cached, filling outValue with the cached result
     // (which may be an empty string for a negative cache hit).
