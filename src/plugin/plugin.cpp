@@ -1,17 +1,19 @@
 #include "plugin.h"
 #include "Lib\Rtti.h"
+#include "Lib\RttiCache.h"
 #include "Lib\config.h"
 #include "Lib\ini.h"
-#include <unordered_map>
 
 #define RTTI_COMMAND "rtti"
-#define RTTI_PLUGIN_VERSION "1.0.8"
+#define RTTI_PLUGIN_VERSION "1.0.9"
 
-// addr → demangled class name; empty string means "checked, not a C++ object"
-// static std::unordered_map<duint, std::string> s_rttiCache;
+// addr → demangled class name; empty string means "checked, not a C++ object".
+// Cleared whenever the debuggee's memory may have changed underneath us -
+// see CBINVALIDATECACHE.
+static RttiCache s_rttiCache;
 
 // Checks the settings and auto-labels the enabled ones
-bool AutoLabel(RTTI rtti)
+static bool AutoLabel(RTTI& rtti)
 {
     if (!rtti.IsValid())
     {
@@ -126,7 +128,25 @@ PLUG_EXPORT void CBADDRINFO(CBTYPE, void *callbackInfo)
 
     duint addr = info->addr;
 
-    string className = RTTI::GetNameOnly(addr);
+    // 'this' pointer must be pointer-aligned
+    if (addr % sizeof(duint) != 0)
+    {
+        return;
+    }
+
+    // ensure the address points to memory we can read
+    if (!DbgMemIsValidReadPtr(addr))
+    {
+        return;
+    }
+
+    string className;
+    if (!s_rttiCache.TryGet(addr, className))
+    {
+        className = RTTI::GetNameOnly(addr);
+        s_rttiCache.Insert(addr, className);
+    }
+
     if (!className.empty())
     {
         if (info->addrinfo->flags & flaglabel)
@@ -140,6 +160,11 @@ PLUG_EXPORT void CBADDRINFO(CBTYPE, void *callbackInfo)
         info->retval = true;
     }
 }
+
+// Fired whenever the debuggee's memory may have changed underneath us
+// (new/exited/attached/detached process, single step, run/resume) - the
+// cached RTTI lookups are no longer trustworthy, so drop them all.
+PLUG_EXPORT void CBINVALIDATECACHE(CBTYPE, void *) { s_rttiCache.Clear(); }
 
 PLUG_EXPORT void CBMENUENTRY(CBTYPE cbType, PLUG_CB_MENUENTRY *info)
 {
@@ -170,11 +195,23 @@ PLUG_EXPORT void CBMENUENTRY(CBTYPE cbType, PLUG_CB_MENUENTRY *info)
     }
 }
 
+// Callback types that mean the debuggee's memory may have changed since we
+// last looked, so any cached RTTI lookups need to be thrown away.
+static const CBTYPE kCacheInvalidatingCallbacks[] = {
+    CB_CREATEPROCESS, CB_EXITPROCESS, CB_STOPDEBUG, CB_ATTACH, CB_DETACH, CB_RESUMEDEBUG, CB_STEPPED,
+};
+
 // Initialize your plugin data here.
 bool pluginInit(PLUG_INITSTRUCT *initStruct)
 {
     _plugin_registercommand(pluginHandle, RTTI_COMMAND, cbRttiCommand, true);
     _plugin_registercallback(pluginHandle, CB_ADDRINFO, CBADDRINFO);
+
+    for (CBTYPE cbType : kCacheInvalidatingCallbacks)
+    {
+        _plugin_registercallback(pluginHandle, cbType, CBINVALIDATECACHE);
+    }
+
     return true;
 }
 
@@ -182,6 +219,11 @@ void pluginStop()
 {
     _plugin_unregistercommand(pluginHandle, RTTI_COMMAND);
     _plugin_unregistercallback(pluginHandle, CB_ADDRINFO);
+
+    for (CBTYPE cbType : kCacheInvalidatingCallbacks)
+    {
+        _plugin_unregistercallback(pluginHandle, cbType);
+    }
 }
 
 // Do GUI/Menu related things here.

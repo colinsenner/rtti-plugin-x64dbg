@@ -141,6 +141,13 @@ bool RTTI::GetBaseClasses()
         return false;
     }
 
+    // Index 0 is always the base class itself and is left unused (see the loop below),
+    // so size these to numBaseClasses rather than MAX_BASE_CLASSES.
+    m_baseClassDescriptors.resize(numBaseClasses);
+    m_baseClassTypeDescriptors.resize(numBaseClasses);
+    m_vbtable.resize(numBaseClasses);
+    m_baseClassOffsets.resize(numBaseClasses);
+
     // Populate the BaseClassArray
     // For each of the numBaseClasses populate the BaseClassDescriptors
     // Start at index 1, the first is always the base class, skip it
@@ -290,7 +297,7 @@ RTTIBaseClassDescriptor RTTI::GetBaseClassDescriptor(size_t idx)
         return RTTIBaseClassDescriptor();
     }
 
-    if (idx > m_classHierarchyDescriptor.numBaseClasses)
+    if (idx >= m_baseClassDescriptors.size())
     {
         return RTTIBaseClassDescriptor();
     }
@@ -349,7 +356,7 @@ std::string RTTI::ToString()
 
 duint RTTI::GetVbtable(size_t idx)
 {
-    if (idx > (sizeof(m_vbtable) / MAX_BASE_CLASSES))
+    if (idx >= m_vbtable.size())
     {
         return 0;
     }
@@ -359,7 +366,7 @@ duint RTTI::GetVbtable(size_t idx)
 
 duint RTTI::GetBaseClassOffset(size_t idx)
 {
-    if (idx > (sizeof(m_baseClassOffsets) / MAX_BASE_CLASSES))
+    if (idx >= m_baseClassOffsets.size())
     {
         return 0;
     }
