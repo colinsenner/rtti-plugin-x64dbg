@@ -3,6 +3,7 @@
 #include "..\plugin.h"
 #include "RTINFO.h"
 #include <string>
+#include <vector>
 
 #define MAX_BASE_CLASSES 64
 
@@ -46,8 +47,11 @@ class RTTI
     RTTIBaseClassDescriptor GetBaseClassDescriptor(size_t idx);
 
     // The classHierarhcyDescriptor contains information for all the base classes of 'this'.
-    RTTIBaseClassDescriptor m_baseClassDescriptors[MAX_BASE_CLASSES];
-    TypeDescriptor m_baseClassTypeDescriptors[MAX_BASE_CLASSES];
+    // Sized to numBaseClasses (capped at MAX_BASE_CLASSES) rather than allocated
+    // for the worst case up front - a fixed TypeDescriptor[MAX_BASE_CLASSES] alone
+    // would be ~64 * 280 bytes per RTTI instance.
+    std::vector<RTTIBaseClassDescriptor> m_baseClassDescriptors;
+    std::vector<TypeDescriptor> m_baseClassTypeDescriptors;
 
     // These refer to the position of the member inside the base class.
     // I haven't seen multiple vbtables in a this, but the information in the BaseClassTypeDescriptors
@@ -55,10 +59,10 @@ class RTTI
     // for multiple, virtual inheritance, this information is parsed from the vbtable if pdisp != -1
 
     // This is the absolute addresses of the vbtables within the class
-    duint m_vbtable[MAX_BASE_CLASSES] = {0};
+    std::vector<duint> m_vbtable;
 
     // The offsets that each base class is at within the this class
-    duint m_baseClassOffsets[MAX_BASE_CLASSES] = {0};
+    std::vector<duint> m_baseClassOffsets;
 
     ///
     /// Methods
