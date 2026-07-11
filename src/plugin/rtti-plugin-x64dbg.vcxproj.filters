@@ -299,6 +299,9 @@
     <ClInclude Include="Lib\RTTI.h">
       <Filter>Lib</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\RttiCache.h">
+      <Filter>Lib</Filter>
+    </ClInclude>
     <ClInclude Include="Lib\RTINFO.h">
       <Filter>Lib</Filter>
     </ClInclude>
@@ -376,6 +379,9 @@
       <Filter>Lib</Filter>
     </ClCompile>
     <ClCompile Include="Lib\RTTI.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\RttiCache.cpp">
       <Filter>Lib</Filter>
     </ClCompile>
   </ItemGroup>

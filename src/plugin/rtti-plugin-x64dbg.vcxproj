@@ -192,6 +192,7 @@
     <ClCompile Include="Lib\ini.cpp" />
     <ClCompile Include="Lib\MemHelpers.cpp" />
     <ClCompile Include="Lib\RTTI.cpp" />
+    <ClCompile Include="Lib\RttiCache.cpp" />
     <ClCompile Include="plugin.cpp" />
     <ClCompile Include="pluginmain.cpp" />
   </ItemGroup>
@@ -201,6 +202,7 @@
     <ClInclude Include="Lib\macros.h" />
     <ClInclude Include="Lib\MemHelpers.h" />
     <ClInclude Include="Lib\RTTI.h" />
+    <ClInclude Include="Lib\RttiCache.h" />
     <ClInclude Include="Lib\RTINFO.h" />
     <ClInclude Include="plugin.h" />
     <ClInclude Include="pluginmain.h" />
