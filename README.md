@@ -25,7 +25,7 @@ Beyond the manual `Dump Rtti` command, the plugin can automatically annotate any
 
 To enable it, open `Plugins -> Rtti-plugin-x64 -> Show RTTI in registers` from the menu bar. The setting is saved and persists between sessions.
 
-![rtti-show-in-registers](resources/rtti-show-in-registers.mp4)
+https://github.com/user-attachments/assets/9693cc6f-3dba-4c47-9506-35b1b5f1aebb
 
 ## Installation
 
